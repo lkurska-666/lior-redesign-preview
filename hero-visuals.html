@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>BYS · Hero visuals</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;font-family:'JetBrains Mono',monospace;background:#101010;color:#f5f5f5}*{box-sizing:border-box}body{margin:0}.bar{min-height:88px;padding:18px 28px;display:flex;gap:24px;align-items:center;border-bottom:1px solid #383733}.name{color:#dcc09c;font-size:14px;font-weight:600}.choices{display:flex;gap:8px}button{font:inherit;font-size:14px;cursor:pointer;border:1px solid #5b574f;padding:12px 18px;background:transparent;color:inherit}button[aria-pressed=true]{background:#dcc09c;color:#171717;border-color:#dcc09c}button:focus-visible,a:focus-visible{outline:2px solid #dcc09c;outline-offset:4px}.note{margin-left:auto;font-size:12px;color:#b5b3af}.bar a{font-size:12px;color:#dcc09c;text-decoration:none}.area{height:calc(100dvh - 88px);min-height:500px;padding:24px;overflow:auto}.anchor{margin:0 auto}.viewport{width:1440px;height:850px;transform-origin:top left;outline:1px solid #383733}iframe{border:0;width:100%;height:100%;display:block}
+</style></head><body>
+<header class="bar"><span class="name">HERO · Візуальні проби</span><div class="choices" aria-label="Варіанти візуалу"><button data-kind="cursor" aria-pressed="true">01 · Курсор</button><button data-kind="bag" aria-pressed="false">02 · Сумка</button></div><span class="note">Десктоп · основний A2 без змін</span><a href="concept-a2.html" target="_blank" rel="noopener">Основний A2 ↗</a></header>
+<main class="area"><div class="anchor"><div class="viewport"><iframe src="hero-cursor.html" title="Hero — курсор"></iframe></div></div></main>
+<script>
+const area=document.querySelector('.area'),anchor=document.querySelector('.anchor'),viewport=document.querySelector('.viewport'),iframe=document.querySelector('iframe');
+function fit(){const scale=Math.min(1,Math.max(1,area.clientWidth-48)/1440);viewport.style.transform=`scale(${scale})`;anchor.style.width=`${1440*scale}px`;anchor.style.height=`${850*scale}px`}
+new ResizeObserver(fit).observe(area);fit();
+function select(kind){document.querySelectorAll('[data-kind]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.kind===kind)));iframe.src=`hero-${kind}.html`;iframe.title=kind==='cursor'?'Hero — курсор':'Hero — сумка';history.replaceState(null,'',`?visual=${kind}`)}
+document.querySelectorAll('[data-kind]').forEach(b=>b.addEventListener('click',()=>select(b.dataset.kind)));const kind=new URLSearchParams(location.search).get('visual');if(kind==='bag')select(kind);
+</script></body></html>

@@ -1,0 +1,19 @@
+/* Isolate the actual hero, retaining A2's live copy, portrait, CTA and type. */
+[data-hero-object] main > :not(.hero), [data-hero-object] .site-footer { display: none; }
+[data-hero-object] .hero { padding-bottom: 70px; }
+[data-hero-object] .hero-art .hero-product {
+  left: -35px;
+  bottom: -10px;
+  width: 400px;
+  height: 400px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+  aspect-ratio: 1;
+}
+[data-hero-object] .hero-art .hero-product img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

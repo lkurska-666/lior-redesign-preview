@@ -1,0 +1,7 @@
+# Domain feature product image
+
+Generated with the built-in `image_gen` tool on 2026-11-19. The transparent PNG is saved beside this file as `domain-headphones-v1.png` and is used only in A2’s domain feature illustration. Address text and the FREE FOR 1 YEAR offer are live HTML, not part of the bitmap.
+
+## Final prompt
+
+Use case: product-mockup. Asset type: isolated product photograph for a dark ecommerce domain feature illustration. Primary request: one premium pair of unbranded wireless over-ear headphones, a photorealistic studio cutout. Subject: matte charcoal black outer ear cups and headband, warm ivory padded ear cushions, very restrained champagne-beige metal details. Composition: portrait-oriented full product, upright, seen at a three-quarter angle; the large nearest oval ear cup faces the viewer in the lower right, headband arches above, farther ear cup behind on left. Show the entire headphone without cropping, centered with a small margin. Realistic proportions and finely detailed materials, soft broad studio light and subtle highlights that remain legible on a #202020 backdrop. Backdrop: genuinely transparent alpha, no ground plane, no backdrop, no cast shadow outside the product. Text: none. Constraints: only a single pair of headphones, no logos, no labels, no UI, no browser window, no typography, no extra objects, no colored glow, no purple or green. Sophisticated quiet black and beige palette matching the supplied website's style.
