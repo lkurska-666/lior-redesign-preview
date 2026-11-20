@@ -116,9 +116,9 @@
     </div>
   </section>`;
   const features = document.body.dataset.featureLayout === 'editorial' ? editorialFeatures : featureRows;
-  const customers = `<section class="customers section" id="testimonials"><div class="wrap"><div class="section-heading"><p class="eyebrow">${L.customers.sub}</p><h2>${L.customers.title}</h2></div><div class="customer-quotes">${L.customers.quotes.map(q => `<figure><blockquote>“${q.q}”</blockquote><figcaption>${q.a}</figcaption></figure>`).join('')}</div><div class="customer-shots">${L.customers.shots.map(s => img(s.replace('assets/', ''), 'Customer review')).join('')}</div></div></section>`;
   const sliderButtons = (id, label) => `<div class="slider-controls"><button data-slider="${id}" data-direction="-1" aria-label="Previous ${label}">${arrow}</button><button data-slider="${id}" data-direction="1" aria-label="Next ${label}">${arrow}</button></div>`;
-  const experts = `<section class="experts section wrap"><div class="section-heading heading-with-controls"><h2>${L.experts.title}</h2>${sliderButtons('experts', 'entrepreneur')}</div><div class="slider expert-slider" id="experts" tabindex="0" aria-label="Entrepreneur testimonials">${L.experts.items.map(e => `<article class="expert-card">${img(e.img.replace('assets/', ''), e.n)}<div class="expert-quote"><p>“${e.q}”</p><h3>${e.n}</h3><p class="expert-role">${e.r}</p></div></article>`).join('')}</div></section>`;
+  const customers = `<section class="customers section" id="testimonials"><div class="wrap"><div class="section-heading heading-with-controls"><div><p class="eyebrow">${L.customers.sub}</p><h2>${L.customers.title}</h2></div></div><div class="customer-quotes" id="quotes" tabindex="0" aria-label="Customer reviews">${L.customers.quotes.map(q => `<figure><blockquote>“${q.q}”</blockquote><figcaption>${q.a}</figcaption></figure>`).join('')}</div>${sliderButtons('quotes', 'review')}<div class="customer-shots">${L.customers.shots.map(s => img(s.replace('assets/', ''), 'Customer review')).join('')}</div></div></section>`;
+  const experts = `<section class="experts section wrap"><div class="section-heading heading-with-controls"><h2>${L.experts.title}</h2></div><div class="slider expert-slider" id="experts" tabindex="0" aria-label="Entrepreneur testimonials">${L.experts.items.map(e => `<article class="expert-card">${img(e.img.replace('assets/', ''), e.n)}<div class="expert-quote"><p>“${e.q}”</p><h3>${e.n}</h3><p class="expert-role">${e.r}</p></div></article>`).join('')}</div>${sliderButtons('experts', 'entrepreneur')}</section>`;
   const niches = [1, 5, 3, 4, 2];
   const createdRows = `<section class="created section wrap"><div class="section-heading heading-with-controls"><div><p class="eyebrow">${L.created.sub}</p><h2>${L.created.title}</h2></div>${sliderButtons('stores', 'store')}</div><div class="slider stores-slider" id="stores" tabindex="0" aria-label="Store examples">${L.created.stores.map((s, i) => `<article class="store-example">${img(s.img.replace('assets/', ''), `${s.n} store`)}<div class="store-meta"><h3>${s.n}</h3><span>👍 ${s.r}</span></div><a class="button outline" href="${register}?niche=${niches[i]}">${L.created.use}${arrow}</a></article>`).join('')}</div>${document.body.dataset.featureLayout === 'editorial' ? '' : cta('centered')}</section>`;
   const likeIcon = '<svg class="rating-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 10v11H3V10h4Zm0 0 5-7a2 2 0 0 1 2 2v5h5a2 2 0 0 1 2 2l-1.3 7a2 2 0 0 1-2 2H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg>';
@@ -136,6 +136,15 @@
   const final = `<section class="final wrap"><h2>${L.final}</h2>${cta()}</section>`;
   const footer = `<footer class="site-footer wrap"><div class="footer-grid"><div class="footer-brand">${img('bys-logo-white.svg', 'Build Your Store')}<p>${L.footer.lead}</p></div>${L.footer.cols.map(([title, links]) => `<div><h3>${title}</h3><ul>${links.map(text => `<li><a href="${href(text)}">${text}</a></li>`).join('')}</ul></div>`).join('')}</div><div class="legal"><p>${L.footer.copy}</p><div>${L.footer.legal.map(text => `<a href="${href(text)}">${text}</a>`).join('')}</div></div></footer>`;
   document.body.innerHTML = `<a class="skip-link" href="#main">Skip to content</a>${header}<main id="main">${hero}${trust}${how}${features}${customers}${experts}${created}${document.body.dataset.featureLayout === 'editorial' ? particleCta : ''}${faq}${final}</main>${footer}`;
+  // Below 1100px the store card + sales chart (444px wide with the chart overhang)
+  // shrink as one picture so they always fit inside the portrait (Olena 2026-11-20);
+  // the card takes at most ~62% of the photo's height so the portrait stays visible.
+  const heroArt = document.querySelector('.hero-art');
+  const heroComposition = document.querySelector('.hero-composition');
+  if (heroArt && heroComposition) {
+    const fitComposition = () => heroComposition.style.setProperty('--fit', Math.min(1, heroArt.clientWidth / 444, heroArt.clientHeight * .62 / 284).toFixed(3));
+    new ResizeObserver(fitComposition).observe(heroArt);
+  }
   // A2 changes the selected description and its picture as one state.
   if (document.body.dataset.featureLayout === 'editorial') {
     const track = document.querySelector('.editorial-feature-grid');

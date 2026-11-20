@@ -35,13 +35,18 @@
     return { x: ring * Math.cos(angle), y, z: ring * Math.sin(angle), size: .65 + random() * .85, light: .65 + random() * .35, offset: random() * Math.PI * 2, dx: 0, dy: 0, vx: 0, vy: 0 };
   });
   function draw(time, step = 0) {
-    const radius = Math.min(820 * .39, height * .39, width * .31);
+    // Phones: the sphere spans ~80% of the width (Olena 2026-11-20: first ~94% after a
+    // competitor reference, then "куля може бути і поменше").
+    const radius = width < 700 ? width * .4 : Math.min(820 * .39, height * .39, width * .31);
+    // Keep the desktop density at every size: point count follows the sphere's area.
+    const count = Math.min(points.length, Math.round(points.length * (radius / 320) ** 2));
     const angle = time * .075;
     const cos = Math.cos(angle), sin = Math.sin(angle);
     const tilt = -.12;
     const ct = Math.cos(tilt), st = Math.sin(tilt);
     ctx.clearRect(0, 0, width, height);
-    for (const point of points) {
+    for (let i = 0; i < count; i++) {
+      const point = points[i];
       const ripple = 1 + .025 * Math.sin(point.y * 7 + point.offset + time * .35);
       const x = (point.x * cos + point.z * sin) * ripple;
       const z0 = (-point.x * sin + point.z * cos) * ripple;

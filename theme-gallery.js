@@ -10,7 +10,12 @@
   const geometry = () => {
     const width = track.firstElementChild.getBoundingClientRect().width;
     const pitch = width + parseFloat(getComputedStyle(track).gap);
-    return { pitch, base: viewport.clientWidth / 2 - width / 2 - 2 * pitch };
+    // Phones: the current card starts at the page gutter and the next one peeks on the
+    // right, like the other sliders (Olena 2026-11-20). Wider screens stay centred.
+    const start = matchMedia('(max-width: 700px)').matches
+      ? section.querySelector('.theme-gallery-heading').getBoundingClientRect().left - viewport.getBoundingClientRect().left
+      : viewport.clientWidth / 2 - width / 2;
+    return { pitch, base: start - 2 * pitch };
   };
   const position = (x, animate = false) => {
     track.style.transition = animate && !reduced.matches ? 'transform 450ms ease' : 'none';

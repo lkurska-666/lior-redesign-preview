@@ -70,7 +70,8 @@ summary::-webkit-details-marker { display: none; }
 .hero-product img { width: 100%; height: 100%; object-fit: cover; object-position: top; filter: saturate(.45); }
 .trust { display: flex; align-items: center; justify-content: space-between; gap: 32px; border-block: 1px solid var(--line); padding-block: 26px; }
 .trust-badges,.trust-customers { display: flex; align-items: center; gap: 28px; }
-.partner { width: 210px; height: auto; filter: grayscale(1) brightness(0) invert(1); }
+/* One logo at every width; only its size changes. The "S" stays visible as a dark cut-out. */
+.partner { width: 210px; height: auto; filter: grayscale(1) invert(1) brightness(3); }
 .coach { width: 64px; height: auto; filter: grayscale(1); }
 .avatars { width: 92px; height: auto; filter: grayscale(1); }
 .trust-customers p { font-size: 14px; max-width: 250px; }
@@ -532,6 +533,29 @@ summary::-webkit-details-marker { display: none; }
 [data-feature-layout="editorial"] .feature-gallery { min-width: 0; }
 [data-feature-layout="editorial"] .feature-frame { width: 100%; aspect-ratio: 6 / 5; }
 [data-feature-layout="editorial"] .feature-frame[hidden] { display: none; }
+/* Below desktop: no scroll switching. Every feature shows as picture → title → text
+   (Olena 2026-11-20: "має бути картинка, потім текст"). */
+@media (max-width: 1099px) {
+  [data-feature-layout="editorial"] .editorial-feature-stage { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  [data-feature-layout="editorial"] .feature-index,
+  [data-feature-layout="editorial"] .feature-gallery,
+  [data-feature-layout="editorial"] .feature-index-item { display: contents; }
+  [data-feature-layout="editorial"] .feature-frame[hidden],
+  [data-feature-layout="editorial"] .feature-index-item p[hidden] { display: block; }
+  [data-feature-layout="editorial"] .feature-index h2 { margin-top: 24px; font-size: 28px; }
+  [data-feature-layout="editorial"] .feature-index-button,
+  [data-feature-layout="editorial"] .feature-index-button:hover { color: var(--accent); pointer-events: none; }
+  [data-feature-layout="editorial"] .feature-index-item p { margin-top: 16px; }
+  [data-feature-layout="editorial"] .feature-frame:not(:first-child) { margin-top: 56px; }
+  [data-feature-layout="editorial"] .feature-frame:nth-child(1) { order: 0; }
+  [data-feature-layout="editorial"] .feature-index-item:nth-child(1) > * { order: 1; }
+  [data-feature-layout="editorial"] .feature-frame:nth-child(2) { order: 2; }
+  [data-feature-layout="editorial"] .feature-index-item:nth-child(2) > * { order: 3; }
+  [data-feature-layout="editorial"] .feature-frame:nth-child(3) { order: 4; }
+  [data-feature-layout="editorial"] .feature-index-item:nth-child(3) > * { order: 5; }
+  [data-feature-layout="editorial"] .feature-frame:nth-child(4) { order: 6; }
+  [data-feature-layout="editorial"] .feature-index-item:nth-child(4) > * { order: 7; }
+}
 
 /* A2 feature CTA: the supplied black, white-particle sphere composition. */
 [data-feature-layout="editorial"] .editorial-features { padding-bottom: 0; }
@@ -575,6 +599,14 @@ summary::-webkit-details-marker { display: none; }
   color: var(--muted);
 }
 .particle-cta-button { margin-top: 32px; }
+/* Phones: a shorter block, the sphere fills the width and the copy sits inside it. */
+@media (max-width: 700px) {
+  .particle-cta { height: 520px; }
+  .particle-cta-content { padding: 0 24px; }
+  .particle-cta-content h2 { font-size: 28px; }
+  .particle-cta-content p { margin-top: 24px; }
+  .particle-cta-button { margin-top: 24px; }
+}
 
 /* A2 desktop: keep the Shopify plan disclosure legible at every CTA placement. */
 @media (min-width: 1100px) {
@@ -595,6 +627,9 @@ summary::-webkit-details-marker { display: none; }
     line-height: 1;
     letter-spacing: -.03em;
   }
+}
+/* A2 every width: the colour full-photo card (Olena 2026-11-20: "як на десктопі"). */
+@media all {
   [data-feature-layout="editorial"] .expert-slider { gap: 16px; scrollbar-width: none; }
   [data-feature-layout="editorial"] .expert-slider::-webkit-scrollbar { display: none; }
   [data-feature-layout="editorial"] .expert-card {
@@ -635,6 +670,13 @@ summary::-webkit-details-marker { display: none; }
     color: var(--text);
   }
   [data-feature-layout="editorial"] .expert-quote .expert-role { margin-top: 0; color: var(--text); }
+}
+/* Phones and tablets: one card per screen with the next one peeking. */
+@media (max-width: 1099px) {
+  [data-feature-layout="editorial"] .expert-card { flex: 0 0 332px; }
+}
+@media (max-width: 700px) {
+  [data-feature-layout="editorial"] .expert-card { flex: 0 0 85%; height: 440px; }
 }
 
 
@@ -717,6 +759,20 @@ summary::-webkit-details-marker { display: none; }
 
 .theme-gallery-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; }
 .theme-gallery-heading > .button { flex-shrink: 0; }
+/* Phones: the button goes under the heading at full width (it pushed the page wider). */
+@media (max-width: 700px) {
+  .theme-gallery-heading { flex-direction: column; align-items: stretch; gap: 24px; }
+  /* Same heading size as the other sections on phones; the next cards peek at both edges. */
+  .theme-gallery .section-heading h2 { font-size: 32px; }
+  .theme-gallery .section-heading.wrap { width: min(100% - 48px, 1376px); }
+  /* One card (85% of the column) + a slice of the next; arrows under the heading, as in the other sliders. */
+  .theme-gallery { --theme-card-width: calc((100vw - 48px) * .85); display: flex; flex-direction: column; }
+  .theme-gallery .theme-gallery-heading { order: 0; margin-bottom: 32px; }
+  .theme-gallery .theme-controls { order: 3; justify-content: flex-start; width: min(100% - 48px, 1376px); margin: 24px auto 0; }
+  /* Hide the previous card's sliver in the left gutter: only the next card peeks. */
+  .theme-gallery .theme-viewport { order: 2; clip-path: inset(-8px -8px -8px 24px); }
+  .theme-track { gap: 16px; }
+}
 
 /* A2: restore the light editorial customer proof section. */
 @media (min-width: 1100px) {
@@ -755,7 +811,7 @@ summary::-webkit-details-marker { display: none; }
   [data-feature-layout="editorial"] .trust-customers p { max-width: none; font-size: 32px; line-height: 1.3; letter-spacing: -.045em; }
   [data-feature-layout="editorial"] .trust .avatars { width: 144px; }
   [data-feature-layout="editorial"] .trust-badges { justify-content: center; gap: 28px; }
-  [data-feature-layout="editorial"] .trust .partner { width: 210px; filter: grayscale(1) invert(1) brightness(3); }
+  [data-feature-layout="editorial"] .trust .partner { width: 210px; }
   [data-feature-layout="editorial"] .trust .coach { width: 56px; }
 }
 
@@ -772,6 +828,19 @@ summary::-webkit-details-marker { display: none; }
   width: 400px;
   height: 284px;
   pointer-events: none;
+}
+/* Below desktop: pinned to the portrait's bottom-left and scaled to its width
+   (--fit is set in landing.js), so it never spills onto the trust row. */
+@media (max-width: 1099px) {
+  [data-hero-visual="modular-store"] .hero-composition {
+    left: 0;
+    top: auto;
+    bottom: 12px;
+    transform-origin: 0 100%;
+    transform: scale(var(--fit, 1));
+  }
+  /* Same photo treatment as desktop. */
+  [data-concept="a"] .hero-art .portrait { filter: none; }
 }
 .hero-black-store { position: relative; width: 380px; background: #111; border: 1px solid #555148; color: #f5f5f5; box-shadow: 0 12px 24px #0003; }
 .hero-store-browser { height: 22px; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; border-bottom: 1px solid #37342f; background: #1b1b1a; color: #9d9991; font-size: 8px; line-height: 1; }
@@ -812,3 +881,111 @@ summary::-webkit-details-marker { display: none; }
 .domain-year-offer { position: absolute; left: 7%; bottom: 12%; display: grid; gap: 1.5cqw; padding: 2.7cqw 3.2cqw; border: 1px solid #776a57; background: #171717; line-height: 1; }
 .domain-year-offer strong { color: #dcc09c; font-size: 6.6cqw; font-weight: 600; letter-spacing: -.04em; }
 .domain-year-offer > span { font-size: 2.1cqw; line-height: 1.3; letter-spacing: .02em; }
+
+/* A2 phones (Olena 2026-11-20 "роби повністю мобільну версію").
+   Sliders follow liorpozin.com on mobile: one card per view, arrows by the heading. */
+.customers .slider-controls { display: none; }
+@media (max-width: 700px) {
+  /* Hero photo lines up with the text column. */
+  /* Shorter photo + smaller store card (Olena 2026-11-20: "зменшену композицію"). */
+  [data-concept="a"] .hero-art { width: 100%; margin-left: 0; aspect-ratio: 1.3; }
+  /* The card hangs below the photo so Lior's phone stays visible (Olena 2026-11-20). */
+  [data-hero-visual="modular-store"] .hero-composition { bottom: -56px; }
+  [data-concept="a"] .hero-art { margin-bottom: 72px; }
+
+  /* How it works: icon left, text right. */
+  [data-feature-layout="editorial"] .step {
+    display: grid; grid-template-columns: 52px minmax(0, 1fr); grid-template-areas: "icon num" "icon title" "icon text";
+    column-gap: 20px; row-gap: 12px; align-content: start; min-height: 0; padding: 24px 0 0;
+  }
+  [data-feature-layout="editorial"] .step-top { grid-area: num; }
+  [data-feature-layout="editorial"] .step h3 { grid-area: title; margin: 0; font-size: 24px; }
+  /* Item titles (features, steps) 24px under the 32px section headings (Olena: "дуже великі заголовки"). */
+  [data-feature-layout="editorial"] .feature-index h2 { font-size: 24px; }
+  .particle-cta-content h2 { font-size: 32px; }
+  [data-feature-layout="editorial"] .step p { grid-area: text; margin: 0; font-size: 16px; }
+  [data-feature-layout="editorial"] .step-icon { grid-area: icon; width: 52px; height: 52px; margin: 0; align-self: start; }
+
+  /* Customers: one review per view with arrows; review screenshots swipe sideways. */
+  .customers .slider-controls { display: flex; }
+  .customer-quotes { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .customer-quotes::-webkit-scrollbar,.customer-shots::-webkit-scrollbar { display: none; }
+  .customer-quotes figure,.customer-quotes figure + figure { flex: 0 0 100%; scroll-snap-align: start; border-left: 0; padding: 24px 0 0; }
+  .customer-quotes blockquote { font-size: 16px; }
+  .customer-shots { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; align-items: start; }
+  .customer-shots img { flex: 0 0 85%; min-width: 0; scroll-snap-align: start; filter: none; }
+}
+/* Below desktop the features end with the same space as the other sections (Olena: "приплюснута"). */
+@media (max-width: 1099px) {
+  [data-feature-layout="editorial"] .editorial-features { padding-bottom: 64px; }
+}
+
+/* A2 phones and tablets — one type scale for the whole page (Olena 2026-11-20, agreed scale).
+   Phones (≤700):
+   5 styles, 4 sizes: Heading 28/600 (H1 + section headings) · Item title 20/600 (Olena: "ще менші") ·
+   Body 16/400 · Label 16/600 (buttons, names, FAQ questions) · Small 14/400 (secondary text).
+   Tablets (701–1099) use exactly the same sizes (Olena 2026-11-20).
+   Illustration labels inside the artboards are exempt. */
+body[data-concept] { --type-heading: 28px; --type-item: 20px; }
+@media (max-width: 1099px) {
+  body[data-concept] main h1,
+  body[data-concept] main h2,
+  body[data-concept] .theme-gallery .section-heading h2,
+  body[data-concept] .particle-cta-content h2 { font-size: var(--type-heading); font-weight: 600; line-height: 1.12; }
+  body[data-concept] .feature-index h2,
+  body[data-concept] .step h3 { font-size: var(--type-item); font-weight: 600; line-height: 1.2; }
+  body[data-concept] .step p,
+  body[data-concept] .feature-index-item p,
+  body[data-concept] .hero-description,
+  body[data-concept] .customer-quotes blockquote,
+  body[data-concept] .faq-answer p,
+  body[data-concept] .particle-cta-content p { font-size: 16px; font-weight: 400; }
+  body[data-concept] .button,
+  body[data-concept] .expert-quote h3,
+  body[data-concept] .theme-gallery .store-meta h3,
+  body[data-concept] .faq summary,
+  body[data-concept] .site-footer h3 { font-size: 16px; font-weight: 600; }
+  body[data-concept] .eyebrow,
+  body[data-concept] .cta-note,
+  body[data-concept] .trust-customers p,
+  body[data-concept] .step-number,
+  body[data-concept] .customer-quotes figcaption,
+  body[data-concept] .store-rating,
+  body[data-concept] .site-footer a,
+  body[data-concept] .desktop-nav summary,
+  body[data-concept] .desktop-nav > a,
+  body[data-concept] .header-actions .login,
+  body[data-concept] .site-footer p { font-size: 14px; font-weight: 400; }
+}
+
+/* Tablets: How it works icons sit on one line at the top of each step (they floated at
+   different heights under texts of different length). */
+@media (min-width: 701px) and (max-width: 1099px) {
+  [data-feature-layout="editorial"] .step { display: flex; flex-direction: column; gap: 12px; }
+  [data-feature-layout="editorial"] .step-top { margin: 0; }
+  [data-feature-layout="editorial"] .step h3,
+  [data-feature-layout="editorial"] .step p { margin: 0; }
+  [data-feature-layout="editorial"] .step-icon { order: -1; width: 44px; height: 44px; margin: 0 0 8px; object-fit: contain; }
+}
+
+/* Slider arrows sit under the cards, where the thumb already is (Olena 2026-11-20:
+   "стрілки зверху секції … незручно"). Phones/tablets: left-aligned; desktop: centred. */
+.experts .slider-controls,
+.customers .slider-controls { margin-top: 24px; }
+@media (min-width: 1100px) {
+  .experts .slider-controls { justify-content: center; margin-top: 48px; }
+}
+
+/* Phones/tablets: the sphere's text stays inside the (smaller) sphere. */
+@media (max-width: 1099px) {
+  .particle-cta-content { width: min(72vw, 360px); margin-inline: auto; padding: 0; }
+}
+
+/* Sphere copy stays legible over the gold particles (Olena 2026-11-20: "текст не видно через колір"):
+   a soft halo in the page background colour hides the dots right behind the letters,
+   and below desktop the note uses the main text colour instead of the muted grey. */
+.particle-cta-content h2,
+.particle-cta-content p { text-shadow: 0 0 4px var(--bg), 0 0 10px var(--bg), 0 0 18px var(--bg); }
+@media (max-width: 1099px) {
+  .particle-cta-content p { color: var(--text); }
+}
