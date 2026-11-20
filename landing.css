@@ -989,3 +989,11 @@ body[data-concept] { --type-heading: 28px; --type-item: 20px; }
 @media (max-width: 1099px) {
   .particle-cta-content p { color: var(--text); }
 }
+
+/* Theme previews: the screenshots have rounded corners baked in; the 1px line moves to the
+   clipped frame (Olena 2026-11-20). */
+.theme-gallery .store-preview { border: 1px solid var(--line); }
+/* Top edge stays whole (the announcement bar); only the bottom 17 of 677 px — the rounded
+   corners — are cut by a slightly shorter frame. */
+.theme-gallery .store-preview { aspect-ratio: 830 / 660; }
+.theme-gallery .store-preview img { border: 0; }
